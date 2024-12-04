@@ -13,11 +13,9 @@ main (void)
         lines.push_back(str);
 
     rows = (int) lines.size(), cols = (int) lines[0].size();
-    for (int i = 0; i < rows; ++i)
-        for (int j = 0; j < cols; ++j)
+    for (int i = 1; i < rows - 1; ++i)
+        for (int j = 1; j < cols - 1; ++j)
             xmasCount += lines[i][j] == 'A'
-                && 
-                i > 0 && j > 0 && i + 1 < rows && j + 1 < cols
                 /* Check NW and SE: */
                 && (
                     (lines[i-1][j-1] == 'S' && lines[i+1][j+1] == 'M')
