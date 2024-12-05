@@ -1,4 +1,5 @@
 #include <iostream>
+#include <string>
 #include <vector>
 
 static unsigned
@@ -33,9 +34,6 @@ main (void)
         xmasCount += countXmas(str);
         lines.push_back(str);
     }
-    
-    if (lines.empty())
-        goto end;
 
     rows = (int) lines.size(), cols = (int) lines[0].size();
     for (auto i = 0; i < cols; ++i)
@@ -64,7 +62,6 @@ main (void)
         xmasCount += countXmas(str);
     }
 
-end:
     std::cout << xmasCount << std::endl;
     return 0;
 }
