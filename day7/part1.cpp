@@ -29,10 +29,10 @@ next_line:
                 nums.push_back(std::stoull((*i)[1].str()));
         /* There are two operations: + and *.   To iterate over all of them,
          * we will use a bitmask where + is 0 and * is 1.  The assumption is
-         * that there are at most 65 numbers.
+         * that there are at most 64 numbers.
          */
         const unsigned numOps = nums.size() - 1;
-        if (numOps > sizeof(uint64_t) * 8)
+        if (numOps >= sizeof(uint64_t) * 8)
         {
             std::cerr << "Too many numbers in the input!" << std::endl;
             return 1;
