@@ -37,23 +37,37 @@ increment (std::vector<op> &ops)
 int
 main (void)
 {
+    static const uint64_t len2num[] = {1, 10, 100, 1000, 10000, 100000, 1000000,
+        10000000, 100000000, 1000000000, 10000000000, 100000000000,
+        1000000000000, 10000000000000, 100000000000000, 1000000000000000};
     uint64_t overallSum = 0;
+    uint64_t target, nums[sizeof(uint64_t) * 8];
+    uint64_t multipliers[sizeof(uint64_t) * 8];
+    unsigned numCount;
     std::string line;
     std::regex re(R"((\d+))");
 
 next_line:
     while (std::getline(std::cin, line))
     {
-        uint64_t target;
-        std::vector<uint64_t> nums;
         auto begin = std::sregex_iterator(line.begin(), line.end(), re);
         auto end = std::sregex_iterator();
+        numCount = 0;
         for (std::sregex_iterator i = begin; i != end; ++i)
             if (i == begin)
                 target = std::stoull((*i)[1].str());
+            else if (numCount < sizeof(nums) / sizeof(nums[0]))
+            {
+                nums[numCount] = std::stoull((*i)[1].str());
+                multipliers[numCount] = len2num[(*i)[1].length()];
+                ++numCount;
+            }
             else
-                nums.push_back(std::stoull((*i)[1].str()));
-        const unsigned numOps = nums.size() - 1;
+            {
+                std::cerr << "Too many numbers in line" << std::endl;
+                return 1;
+            }
+        const unsigned numOps = numCount - 1;
         std::vector<op> ops(numOps, (op) /* Use zero in order not to depend
             on any particular enum values */ 0);
         do
@@ -71,8 +85,7 @@ next_line:
                     break;
                 case CAT:
                     /* Catenate as strings: 123 CAT 94 => 12394 */
-                    sum = std::stoull(std::to_string(sum)
-                                            + std::to_string(nums[i + 1]));
+                    sum = sum * multipliers[i + 1] + nums[i + 1];
                     break;
                 }
                 if (sum > target)
