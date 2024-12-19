@@ -86,5 +86,5 @@ main (int argc, char **argv)    // Usage prog gridSize fallenByteCount
 
     std::cout << "Min: " << minStepCount << std::endl;
 
-    return 0;
+    return minStepCount < INT_MAX ? 0 : 1;
 }
